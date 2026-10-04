@@ -48,7 +48,7 @@ enum {
     TLMCHAN_HASH_MOD_VALUE = 99,      // !< The modulo value of the hashing function.
                                       // Should be set to a little below the ID gaps to spread the entries around
 
-    TLMCHAN_HASH_BUCKETS = 22,  // !< Buckets assignable to a hash slot.
+    TLMCHAN_HASH_BUCKETS = 23,  // !< Buckets assignable to a hash slot.
                                  // Buckets must be >= number of telemetry channels in system
 
     // Maximum number of updated telemetry entries Run_handler will serialize

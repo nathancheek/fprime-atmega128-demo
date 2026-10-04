@@ -24,17 +24,23 @@ The board needs [MegaCore](https://github.com/MCUdude/MegaCore) and a bootloader
 arduino-cli upload -b "MegaCore:avr:128:clock=7_3728MHz_external" -p /dev/ttyUSB0 -i ./build-artifacts/ATmega128/ATmega128Demo_ATmega128DemoDeployment/bin/ATmega128Demo_ATmega128DemoDeployment.elf.hex
 ```
 
-UART0 is the programming port and carries console output (`Fw::Logger`). Opening it resets the board through DTR. The F' ground link is on UART1.
+UART0 is the programming port and carries console output (`Fw::Logger`). Opening it resets the board through DTR. The Space Packet link is on UART1.
 
 ## Running the application and F' GDS
 
-The following command will spin up the F' GDS on the ground link, UART1:
+The Space Packet link on UART1 (F' GDS on the bench, another subsystem in flight) carries CCSDS Space Packets, each starting with a 2-byte sync word (0xC1F5) and ending in a 2-byte CRC (see `ATmega128Demo/Components/ComSpacePacket`), with no TC/TM transfer frames. The sync word (`ComCfg.SpacePacketSyncWord`, 0 for none), the CRC (`ComCfg.SpacePacketCrc`) and the APIDs (`ComCfg.Apid`) are set in `config/ComCfg.fpp`. F' GDS reads this format through the framing plugin in `gds/space_packet_crc.py`, which takes all three from the dictionary. From the project root:
 
 ```sh
-fprime-gds -n --dictionary ./build-artifacts/ATmega128/ATmega128Demo_ATmega128DemoDeployment/dict/ATmega128DemoDeploymentTopologyDictionary.json --framing-selection fprime --communication-selection uart --uart-device /dev/ttyACM0 --uart-baud 115200
+export PYTHONPATH="$PWD/gds"
+export FPRIME_GDS_EXTRA_PLUGINS="space_packet_crc:SpacePacketCrcFramerDeframer"
+fprime-gds -n --dictionary ./build-artifacts/ATmega128/ATmega128Demo_ATmega128DemoDeployment/dict/ATmega128DemoDeploymentTopologyDictionary.json --framing-selection space-packet-crc --communication-selection uart --uart-device /dev/ttyACM0 --uart-baud 115200
 ```
 
 > [!NOTE]
 > `/dev/ttyACM0` should be the serial adapter on UART1. It may vary for your system/device. It may also be `/dev/ttyUSB0`. For MacOS, it will be along the lines of `/dev/tty.usbmodem12345`. Change accordingly.
 >
 > To view the list of your connected devices, run: `ls /dev/tty*`.
+
+All telemetry is sent once per second via packetized telemetry packets, defined in `Top/ATmega128DemoPackets.fppi`. There are no events: command results show up in the `cmdDisp.CommandsDispatched` and `cmdDisp.CommandErrors` channels.
+
+See the [project README](../../README.md) for what the deployment does and how each component works.

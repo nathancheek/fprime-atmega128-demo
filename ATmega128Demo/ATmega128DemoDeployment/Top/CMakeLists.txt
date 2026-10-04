@@ -18,5 +18,6 @@ register_fprime_module(
     "${CMAKE_CURRENT_LIST_DIR}/ATmega128DemoDeploymentTopology.cpp"
   DEPENDS
     Arduino_Drv_StreamDriver
+    Arduino_Drv_SpiDriver
     fprime-baremetal_Os_TaskRunner
 )
