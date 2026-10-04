@@ -3,3 +3,6 @@
 
 # Local requirements:
 -r ./lib/fprime/requirements.txt
+# fprime-arduino's own requirements.txt asks for cmake>=3.26.4, which conflicts with fprime's pin,
+# so only its arduino-cli wrapper is taken from it
+arduino-cli-cmake-wrapper==0.2.0a1
