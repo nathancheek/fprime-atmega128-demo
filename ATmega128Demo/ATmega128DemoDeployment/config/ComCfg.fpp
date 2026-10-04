@@ -22,6 +22,15 @@ module ComCfg {
     @ (4.1 and later) and reassembles packets that span frames (4.3.1 and later).
     dictionary constant TmFrameFixedSize = 128
 
+    @ Sync word written before each Space Packet on the ATmega128Demo.ComSpacePacket link (big endian), or 0
+    @ for none. F´ GDS reads it from the dictionary (gds/space_packet_crc.py).
+    dictionary constant SpacePacketSyncWord = 0xC1F5
+
+    @ 1 to follow each Space Packet on the ATmega128Demo.ComSpacePacket link with a CRC-16/CCITT-FALSE over the
+    @ packet, 0 for none. An integer, since FPP bool constants aren't usable in C++ constant expressions. F´ GDS
+    @ reads it from the dictionary (gds/space_packet_crc.py).
+    dictionary constant SpacePacketCrc = 1
+
     @ Upper Bound on Fixed size of CCSDS AOS frames
     constant AosMaxFrameFixedSize = 1536
 

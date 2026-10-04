@@ -17,7 +17,9 @@ constant FW_QUEUE_NAME_BUFFER_SIZE = 1
 constant FW_TASK_NAME_BUFFER_SIZE = 1
 
 @ Specifies the size of the buffer that contains a communications packet
-constant FW_COM_BUFFER_MAX_SIZE = 128
+@ 120 keeps packets on the Space Packet link (sync word, 6-byte header, packet, CRC) at most 130 bytes.
+@ F´ GDS reads it from the dictionary (gds/space_packet_crc.py).
+dictionary constant FW_COM_BUFFER_MAX_SIZE = 120
 
 @ Specifies the size of the buffer attached to state machine signals
 constant FW_SM_SIGNAL_BUFFER_MAX_SIZE = 128
@@ -38,7 +40,7 @@ constant FW_LOG_STRING_MAX_SIZE = 64
 @ Specifies the size of the buffer that contains the serialized telemetry value
 @ Must fit the largest channel: PassiveRateGroup's PortCycleTime and PortCycleTimeHWM are
 @ PassiveRateGroupOutputPorts (10) U32s, 40 bytes. Below the fprime default
-@ (FW_COM_BUFFER_MAX_SIZE - sizeof(FwChanIdType) - sizeof(FwPacketDescriptorType), 122 bytes here) to save RAM
+@ (FW_COM_BUFFER_MAX_SIZE - sizeof(FwChanIdType) - sizeof(FwPacketDescriptorType), 114 bytes here) to save RAM
 constant FW_TLM_BUFFER_MAX_SIZE = 64
 
 @ Specifies the size of the buffer that contains the serialized arguments of a

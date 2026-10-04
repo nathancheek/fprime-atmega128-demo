@@ -6,15 +6,7 @@
 #ifndef ATMEGA128DEMODEPLOYMENT_ATMEGA128DEMODEPLOYMENTTOPOLOGYDEFS_HPP
 #define ATMEGA128DEMODEPLOYMENT_ATMEGA128DEMODEPLOYMENTTOPOLOGYDEFS_HPP
 
-#include "Fw/Types/MallocAllocator.hpp"
-#include <cstring>
-#include "ATmega128Demo/ATmega128DemoDeployment/Top/FppConstantsAc.hpp"
-
-// SubtopologyTopologyDefs includes
-#include "Svc/Subtopologies/ComFprime/SubtopologyTopologyDefs.hpp"
-// ComFprime Enum Includes
-#include "Svc/Subtopologies/ComFprime/Ports_ComPacketQueueEnumAc.hpp"
-#include "Svc/Subtopologies/ComFprime/Ports_ComBufferQueueEnumAc.hpp"
+#include <Fw/FPrimeBasicTypes.hpp>
 
 /**
  * \brief required ping constants
@@ -34,14 +26,10 @@
  * }
  * }
  * ```
+ *
+ * This deployment has no active components, so nothing is pinged.
  */
-namespace PingEntries {
-    namespace ATmega128Demo_tlmSend      {enum { WARN = 3, FATAL = 5 };}
-    namespace ATmega128Demo_cmdDisp      {enum { WARN = 3, FATAL = 5 };}
-    namespace ATmega128Demo_eventLogger  {enum { WARN = 3, FATAL = 5 };}
-    namespace ATmega128Demo_rateGroup10Hz {enum { WARN = 3, FATAL = 5 };}
-    namespace ATmega128Demo_rateGroup1Hz  {enum { WARN = 3, FATAL = 5 };}
-}  // namespace PingEntries
+namespace PingEntries {}  // namespace PingEntries
 
 // Definitions are placed within the deployment namespace
 namespace ATmega128Demo {
@@ -60,7 +48,5 @@ namespace ATmega128Demo {
     };
 
 }  // namespace ATmega128Demo
-
-
 
 #endif
